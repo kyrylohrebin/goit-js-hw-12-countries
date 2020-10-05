@@ -1,0 +1,22 @@
+<h2 class="selected-country__title-search">{{name}}</h2>
+<div class="selected-country__container">
+  <div class="selected-country__description">
+    <p class="selected-country__title">
+      Native Name: <span class="selected-country__value">{{this.nativeName}}</span>
+    </p>
+    <p class="selected-country__title">
+      Capital: <span class="selected-country__value">{{capital}}</span>
+    </p>
+    <p class="selected-country__title">
+      Population:
+      <span class="selected-country__value">{{population}}</span>
+    </p>
+    <p class="selected-country__title">Languages:</p>
+    <ul class="selected-country__languages-list">
+      {{#each languages}}
+      <li class="selected-country__languages-list-item">{{this.name}}</li>
+      {{/each }}
+    </ul>
+  </div>
+  <img src={{flag}} alt={{name}} class="selected-country__flag" width="300px" height="300px" />
+</div>
