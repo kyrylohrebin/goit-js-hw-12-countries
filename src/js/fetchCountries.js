@@ -4,21 +4,28 @@ import { error } from '@pnotify/core';
 import '@pnotify/core/dist/PNotify.css';
 import '@pnotify/core/dist/BrightTheme.css';
 
-
 const refs = {
-    input: document.querySelector('.input-js'),
-    selectedCountry: document.querySelector('.selected-country'),
-    countryList: document.querySelector('.country-search__list'),
-  };
+  input: document.querySelector('.input-js'),
+  selectedCountry: document.querySelector('.selected-country'),
+  countryList: document.querySelector('.country-search__list'),
+};
 
 const debounce = require('lodash.debounce');
 
-/* refs.input.addEventListener(
+refs.input.addEventListener(
   'input',
-  debounce(tralalalala, 300),
-); */
+  debounce(inputChange, 300),
+);
 
-/* function fetchCountries (searchQuery) {
+function inputChange (event) {
+  const inputValue = event.target.value;
+
+  refs.selectedCountry.innerHTML = '';
+
+  fetchCountries(inputValue);
+}
+
+function fetchCountries(searchQuery) {
   const options = {
     headers: {
       Accept: 'application/json',
@@ -27,38 +34,40 @@ const debounce = require('lodash.debounce');
 
   const url = `https://restcountries.eu/rest/v2/name/${searchQuery}`;
 
-    fetch(url, options)
+  fetch(url, options)
     .then(response => {
-      return response.json();
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error(`Ошибка по адресу ${url}, 
+      статус ошибки ${response.status}!`);
     })
-    .then(data => updateMarkup(data))
-    .catch(error => {
+    .then(data => {
+      if (data.length === 1) {
+        updateCountryMarkup (data);
+      }
+      if (data.length > 1 && data.length < 11) {
+        updateCountryListMarkup (data);
+      }
+      else {
+        error({
+          title: 'To many mathches found. Please enter a more specific query!',
+        });
+      }
+    })
+    .catch(pnError => {
       error({
         title: 'Wrong query! Please try again',
       });
     });
-} */
+}
 
+function updateCountryMarkup (data) {
+  const counrtyMarkup = selectedCountryTemp(data);
+  refs.selectedCountry.insertAdjacentHTML('beforeend', counrtyMarkup);
+}
 
-const options = {
-  headers: {
-    Accept: 'application/json',
-  },
-};
-
-const url = `https://restcountries.eu/rest/v2/name/ukraine`;
-
-  fetch(url, options)
-  .then(response => {
-    return response.json();
-  })
-  .then(data => {
-    console.log(data);
-    const markup = selectedCountryTemp(data);
-    refs.selectedCountry.insertAdjacentHTML('beforeend', markup)
-  })
-  .catch(error => {
-    error({
-      title: 'Wrong query! Please try again',
-    });
-  });
+function updateCountryListMarkup (data) {
+  const counrtyListMarkup = countryListTemp(data);
+  refs.selectedCountry.insertAdjacentHTML('beforeend', counrtyListMarkup);
+}
