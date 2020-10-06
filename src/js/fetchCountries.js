@@ -50,7 +50,7 @@ function fetchCountries(searchQuery) {
       if (data.length > 1 && data.length < 11) {
         updateCountryListMarkup (data);
       }
-      else {
+      if (data.length > 10) {
         error({
           title: 'To many mathches found. Please enter a more specific query!',
         });
