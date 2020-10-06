@@ -33,8 +33,9 @@ function fetchCountries(searchQuery) {
   };
 
   const url = `https://restcountries.eu/rest/v2/name/${searchQuery}`;
+  if (!searchQuery) return;
 
-  fetch(url, options)
+  return fetch(url, options)
     .then(response => {
       if (response.ok) {
         return response.json();
@@ -43,12 +44,6 @@ function fetchCountries(searchQuery) {
       статус ошибки ${response.status}!`);
     })
     .then(data => {
-      if (!data) {
-        error({
-          title: 'Wrong query! Please try again',
-        });
-        return;
-      }
       if (data.length === 1) {
         updateCountryMarkup (data);
       }
