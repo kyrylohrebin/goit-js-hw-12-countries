@@ -14,7 +14,7 @@ const debounce = require('lodash.debounce');
 
 refs.input.addEventListener(
   'input',
-  debounce(inputChange, 300),
+  debounce(inputChange, 500),
 );
 
 function inputChange (event) {
@@ -43,6 +43,12 @@ function fetchCountries(searchQuery) {
       статус ошибки ${response.status}!`);
     })
     .then(data => {
+      if (!data) {
+        error({
+          title: 'Wrong query! Please try again',
+        });
+        return;
+      }
       if (data.length === 1) {
         updateCountryMarkup (data);
       }

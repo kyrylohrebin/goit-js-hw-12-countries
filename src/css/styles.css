@@ -12,4 +12,26 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif,
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+    background-color: antiquewhite;
+}
+
+.container {
+  max-width: 600px;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.country-search__input {
+  width: max-content;
+}
+
+.selected-country__title {
+  font-weight: 600;
+}
+
+.selected-country__value {
+  font-weight: normal;
 }
